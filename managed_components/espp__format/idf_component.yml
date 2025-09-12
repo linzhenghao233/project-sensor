@@ -1,0 +1,20 @@
+dependencies:
+  idf:
+    version: '>=5.0'
+description: C++ Component wrapping libfmt for esp-idf
+documentation: https://esp-cpp.github.io/espp/logger.html#format
+license: MIT
+maintainers:
+- William Emfinger <waemfinger@gmail.com>
+repository: git://github.com/esp-cpp/espp.git
+repository_info:
+  commit_sha: 578972c307a99a8a1d9fc7ef2fe5ea6f2dc04e59
+  path: components/format
+tags:
+- cpp
+- Component
+- libfmt
+- Formatting
+- Logging
+url: https://github.com/esp-cpp/espp/tree/main/components/format
+version: 1.0.22

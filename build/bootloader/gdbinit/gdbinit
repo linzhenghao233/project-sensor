@@ -1,0 +1,2 @@
+source D:/esp32/project-sensor/build/bootloader/gdbinit/symbols
+source D:/esp32/project-sensor/build/bootloader/gdbinit/connect

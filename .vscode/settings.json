@@ -1,0 +1,27 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.espIdfPathWin": "d:\\esp32\\master\\esp-idf",
+  "idf.pythonInstallPath": "d:\\esp32\\.espressif\\tools\\idf-python\\3.11.2\\python.exe",
+  "idf.openOcdConfigs": [
+    "board/esp32c3-builtin.cfg"
+  ],
+  "idf.portWin": "COM47",
+  "idf.toolsPathWin": "d:\\esp32\\.espressif",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32c3"
+  },
+  "clangd.path": "d:\\esp32\\.espressif\\tools\\esp-clang\\esp-19.1.2_20250312\\esp-clang\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=d:\\esp32\\.espressif\\tools\\xtensa-esp-elf\\esp-15.1.0_20250607\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe",
+    "--compile-commands-dir=${workspaceFolder}\\build"
+  ],
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "dht.h": "c",
+    "adc_oneshot.h": "c",
+    "adc_cali.h": "c",
+    "task.h": "c"
+  },
+  "idf.flashType": "UART"
+}
