@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "project-sensor",
-    "project_version":    "1",
+    "project_version":    "80f9f91-dirty",
     "project_path":       "D:/esp32/project-sensor",
     "idf_path":           "D:/esp32/master/esp-idf",
     "build_dir":          "D:/esp32/project-sensor/build",
@@ -995,12 +995,12 @@
             "dir": "D:/esp32/project-sensor/main",
             "type": "LIBRARY",
             "lib": "__idf_main",
-            "reqs": [ "esp_system", "spi_flash", "log", "driver", "DHT11", "esp_driver_mcpwm", "esp_adc", "SG90", "nvs_flash", "esp_netif", "esp_event", "esp_wifi", "esp_http_client" ],
+            "reqs": [ "log", "nvs_flash", "esp_event", "esp_netif", "driver", "esp_adc", "esp_wifi", "esp_http_client", "DHT11", "SG90" ],
             "priv_reqs": [ "espp__adc", "zorxx__dht" ],
             "managed_reqs": [],
             "managed_priv_reqs": [ "espp__adc", "zorxx__dht" ],
             "file": "D:/esp32/project-sensor/build/esp-idf/main/libmain.a",
-            "sources": [ "D:/esp32/project-sensor/main/main_lastversion.c", "D:/esp32/project-sensor/main/app_main.c", "D:/esp32/project-sensor/build/thingspeak_ca.crt.S" ],
+            "sources": [ "D:/esp32/project-sensor/main/app_main.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {
@@ -2526,7 +2526,7 @@
             "prefix": "idf",
             "dir": "D:/esp32/project-sensor/main",
             "lib": "__idf_main",
-            "reqs": [ "esp_system", "spi_flash", "log", "driver", "DHT11", "esp_driver_mcpwm", "esp_adc", "SG90", "nvs_flash", "esp_netif", "esp_event", "esp_wifi", "esp_http_client" ],
+            "reqs": [ "log", "nvs_flash", "esp_event", "esp_netif", "driver", "esp_adc", "esp_wifi", "esp_http_client", "DHT11", "SG90" ],
             "priv_reqs": [ "espp__adc", "zorxx__dht" ],
             "managed_reqs": [],
             "managed_priv_reqs": [ "espp__adc", "zorxx__dht" ],

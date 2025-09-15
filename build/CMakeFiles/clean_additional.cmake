@@ -19,7 +19,6 @@ if("${CONFIG}" STREQUAL "" OR "${CONFIG}" STREQUAL "")
   "project-sensor.bin"
   "project-sensor.map"
   "project_elf_src_esp32c3.c"
-  "thingspeak_ca.crt.S"
   "x509_crt_bundle.S"
   )
 endif()
