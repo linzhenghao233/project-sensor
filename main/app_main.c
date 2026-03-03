@@ -11,8 +11,11 @@
 #include "esp_event.h"
 #include "esp_netif.h"
 #include "esp_http_client.h"
+#include "esp_crt_bundle.h"
 #include "driver/uart.h"
 #include "driver/gpio.h"
+#include "cJSON.h"
+#include "mqtt_client.h"
 
 // 包含你自己的传感器和舵机驱动头文件
 #include "dht11.h"
@@ -25,7 +28,15 @@ static const char *TAG = "SMART_PLANT_SYSTEM";
 // ====================================================================
 #define WIFI_SSID           "Xiaomi_D550"
 #define WIFI_PASSWORD       "lin3399919.."
-#define THINGSPEAK_API_KEY  "I0HL9KQ0E0ODA0X7"
+
+// --- ThingSpeak MQTT 接口配置 ---
+// 这里是你的 ThingSpeak MQTT 设备凭证
+#define THINGSPEAK_CLIENT_ID    "DDE2Hh8eNCA0FzsCBS8WMDQ"
+#define THINGSPEAK_USERNAME     "DDE2Hh8eNCA0FzsCBS8WMDQ"
+#define THINGSPEAK_PASSWORD     "FeGUF42nOA1nTvsY9t89Bd6K"
+// 你的 ThingSpeak 频道 ID (请到 Channel Settings 中查看填到这里)
+#define THINGSPEAK_CHANNEL_ID   "3069197"
+
 
 // --- 传感器校准值 (仅光敏电阻) ---
 #define LIGHT_DARK_VALUE    4095
@@ -43,7 +54,7 @@ static const char *TAG = "SMART_PLANT_SYSTEM";
 #define BAUD_RATE             4800
 // ====================================================================
 
-// 定义传感器数据结构体 (已更新)
+// 定义传感器数据结构体 
 typedef struct {
     int air_temperature;
     int air_humidity;
@@ -78,13 +89,13 @@ static uint16_t crc16(const uint8_t *data, uint16_t len)
     return crc;
 }
 
-// --- Wi-Fi 初始化相关函数 (此处省略，请使用您之前能正常工作的版本) ---
+// --- Wi-Fi 初始化相关函数 ---
 void wifi_init_sta(void);
 static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data);
 
 
 /**
- * @brief 任务1：传感器读取任务 (已整合所有传感器)
+ * @brief 任务1：传感器读取任务 
  */
 void sensor_reader_task(void *pvParameters)
 {
@@ -161,19 +172,66 @@ void sensor_reader_task(void *pvParameters)
             ESP_LOGE(TAG, "Failed to post sensor data to queue.");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(10000));
+        vTaskDelay(pdMS_TO_TICKS(20000));
     }
 }
 
 
+// --- MQTT 客户端句柄定义 ---
+static esp_mqtt_client_handle_t mqtt_client = NULL;
+static bool mqtt_connected = false;
+
+// MQTT 事件处理回调函数
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
+{
+    esp_mqtt_event_handle_t event = event_data;
+    switch ((esp_mqtt_event_id_t)event_id) {
+        case MQTT_EVENT_CONNECTED:
+            ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED to ThingSpeak!");
+            mqtt_connected = true;
+            break;
+        case MQTT_EVENT_DISCONNECTED:
+            ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
+            mqtt_connected = false;
+            break;
+        case MQTT_EVENT_PUBLISHED:
+            ESP_LOGI(TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+            break;
+        case MQTT_EVENT_ERROR:
+            ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
+            break;
+        default:
+            break;
+    }
+}
+
 /**
- * @brief 任务2：逻辑控制与云端上传任务 (已更新)
+ * @brief 任务2：逻辑控制与云端上传任务 (ThingSpeak MQTT版)
  */
 void logic_and_upload_task(void *pvParameters)
 {
     ESP_LOGI(TAG, "Logic & Upload Task started.");
     SensorData_t data;
-    char url_buffer[512]; // 增加了URL缓冲区大小以容纳更多字段
+    
+    ESP_LOGI(TAG, "Waiting 10s for Wi-Fi connection...");
+    vTaskDelay(pdMS_TO_TICKS(10000)); 
+    
+    // 初始化 MQTT 客户端
+    esp_mqtt_client_config_t mqtt_cfg = {
+        .broker.address.uri = "mqtts://mqtt3.thingspeak.com:8883",
+        .broker.verification.crt_bundle_attach = esp_crt_bundle_attach,
+        .credentials.client_id = THINGSPEAK_CLIENT_ID,
+        .credentials.username  = THINGSPEAK_USERNAME,
+        .credentials.authentication.password = THINGSPEAK_PASSWORD,
+    };
+    mqtt_client = esp_mqtt_client_init(&mqtt_cfg);
+    esp_mqtt_client_register_event(mqtt_client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+    esp_mqtt_client_start(mqtt_client);
+
+    char publish_topic[100];
+    snprintf(publish_topic, sizeof(publish_topic), "channels/%s/publish", THINGSPEAK_CHANNEL_ID);
+    
+    char payload_buffer[256];
 
     while (1)
     {
@@ -194,29 +252,31 @@ void logic_and_upload_task(void *pvParameters)
                 ESP_LOGW(TAG, "Watering complete.");
             }
             
-            // --- 云端上传逻辑 ---
-            // 注意：免费版ThingSpeak最多8个字段。这里我们选择上传8个关键数据。
-            snprintf(url_buffer, sizeof(url_buffer),
-                     "http://api.thingspeak.com/update?api_key=%s&field1=%d&field2=%d&field3=%.1f&field4=%.1f&field5=%.1f&field6=%.0f&field7=%.1f&field8=%.1f",
-                     THINGSPEAK_API_KEY,
-                     data.air_temperature,   // Field 1
-                     data.air_humidity,      // Field 2
-                     data.light_intensity,   // Field 3
-                     data.soil_moisture,     // Field 4
-                     data.soil_temp,         // Field 5
-                     data.soil_ec,           // Field 6
-                     data.soil_ph,           // Field 7
-                     (float)data.soil_n);    // Field 8 (上传氮含量作为示例)
-            
-            esp_http_client_config_t config = { .url = url_buffer, .method = HTTP_METHOD_GET };
-            esp_http_client_handle_t client = esp_http_client_init(&config);
-            esp_err_t err = esp_http_client_perform(client);
-            if (err == ESP_OK) {
-                ESP_LOGI(TAG, "[Cloud] Data uploaded successfully.");
+            // --- ThingSpeak MQTT 数据上传逻辑 ---
+            if (mqtt_connected) {
+                // ThingSpeak 接受 URL query 格式的 Payload，最多 8 个字段 (field1 ~ field8)
+                // 这里我们选择上传: 1.空气温度 2.空气湿度 3.光照 4.土壤水分 5.土壤温度 6.EC 7.PH 8.氮(作为代表)
+                snprintf(payload_buffer, sizeof(payload_buffer), 
+                         "field1=%d&field2=%d&field3=%.1f&field4=%.1f&field5=%.1f&field6=%.0f&field7=%.1f&field8=%d",
+                         data.air_temperature,
+                         data.air_humidity,
+                         data.light_intensity,
+                         data.soil_moisture,
+                         data.soil_temp,
+                         data.soil_ec,
+                         data.soil_ph,
+                         data.soil_n);
+                
+                int msg_id = esp_mqtt_client_publish(mqtt_client, publish_topic, payload_buffer, 0, 0, 0);
+                if (msg_id != -1) {
+                     ESP_LOGI(TAG, "[ThingSpeak] Enqueued data to MQTT, msg_id=%d", msg_id);
+                     ESP_LOGI(TAG, "Payload: %s", payload_buffer);
+                } else {
+                     ESP_LOGE(TAG, "[ThingSpeak] Failed to enqueue MQTT message.");
+                }
             } else {
-                ESP_LOGE(TAG, "[Cloud] Failed to upload data: %s", esp_err_to_name(err));
+                ESP_LOGW(TAG, "[ThingSpeak] MQTT not connected, skipping upload.");
             }
-            esp_http_client_cleanup(client);
         }
     }
 }
@@ -246,13 +306,13 @@ void app_main(void)
 
     // 5. 创建任务
     xTaskCreate(sensor_reader_task, "SensorReaderTask", 4096, NULL, 5, NULL);
-    xTaskCreate(logic_and_upload_task, "LogicAndUploadTask", 4096, NULL, 5, NULL);
+    xTaskCreate(logic_and_upload_task, "LogicAndUploadTask", 6144, NULL, 5, NULL); // 轻微增加了栈大小，以防使用JSON/HTTP时栈溢出
 
     ESP_LOGI(TAG, "All tasks created. System is now running.");
 }
 
 
-// --- 请将您能正常工作的 wifi_init_sta 和 wifi_event_handler 函数体粘贴到这里 ---
+// --- 之前能正常工作的 wifi_init_sta 和 wifi_event_handler 函数 ---
 static void wifi_event_handler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data)
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {

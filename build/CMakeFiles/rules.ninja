@@ -845,6 +845,82 @@ rule C_STATIC_LIBRARY_LINKER____idf_esp_netif_
 #############################################
 # Rule for compiling C files.
 
+rule C_COMPILER____idf_http_parser_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_http_parser_
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_esp-tls_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_esp-tls_
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_tcp_transport_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_tcp_transport_
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_mqtt_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_mqtt_
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
 rule C_COMPILER____idf_esp_driver_gptimer_unscanned_
   depfile = $DEP_FILE
   deps = gcc
@@ -1189,63 +1265,6 @@ rule C_STATIC_LIBRARY_LINKER____idf_esp_wifi_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_http_parser_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_http_parser_
-  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
-rule C_COMPILER____idf_esp-tls_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_esp-tls_
-  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
-rule C_COMPILER____idf_tcp_transport_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_tcp_transport_
-  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
 rule C_COMPILER____idf_esp_http_client_unscanned_
   depfile = $DEP_FILE
   deps = gcc
@@ -1257,6 +1276,25 @@ rule C_COMPILER____idf_esp_http_client_unscanned_
 # Rule for linking C static library.
 
 rule C_STATIC_LIBRARY_LINKER____idf_esp_http_client_
+  command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_json_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ccache ${LAUNCHER}${CODE_CHECK}D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_json_
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && D:\esp32\.espressif\tools\cmake\3.30.2\bin\cmake.exe -E rm -f $TARGET_FILE && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ar.exe qc $TARGET_FILE $LINK_FLAGS $in && D:\esp32\.espressif\tools\riscv32-esp-elf\esp-15.1.0_20250607\riscv32-esp-elf\bin\riscv32-esp-elf-ranlib.exe $TARGET_FILE && $POST_BUILD"
   description = Linking C static library $TARGET_FILE
   restat = $RESTAT

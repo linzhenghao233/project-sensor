@@ -6,6 +6,7 @@ idf_component_register(SRCS "app_main.c"
                             nvs_flash
                             esp_event
                             esp_netif
+                            mqtt
                             
                             # 硬件驱动
                             driver           # 用于 UART 和 GPIO
@@ -14,6 +15,8 @@ idf_component_register(SRCS "app_main.c"
                             # 网络库
                             esp_wifi
                             esp_http_client
+                            esp-tls
+                            json
                             
                             # 您的自定义组件
                             DHT11

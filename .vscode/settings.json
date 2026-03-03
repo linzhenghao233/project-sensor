@@ -5,7 +5,7 @@
   "idf.openOcdConfigs": [
     "board/esp32c3-builtin.cfg"
   ],
-  "idf.portWin": "COM47",
+  "idf.portWin": "COM50",
   "idf.toolsPathWin": "d:\\esp32\\.espressif",
   "idf.customExtraVars": {
     "IDF_TARGET": "esp32c3"
@@ -23,5 +23,6 @@
     "adc_cali.h": "c",
     "task.h": "c"
   },
-  "idf.flashType": "UART"
+  "idf.flashType": "UART",
+  "idf.currentSetup": "d:\\esp32\\master\\esp-idf"
 }

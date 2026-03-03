@@ -81,6 +81,10 @@ $<TARGET_FILE:idf::esp_driver_usb_serial_jtag>
 $<TARGET_FILE:idf::esp_vfs_console>
 $<TARGET_FILE:idf::lwip>
 $<TARGET_FILE:idf::esp_netif>
+$<TARGET_FILE:idf::http_parser>
+$<TARGET_FILE:idf::esp-tls>
+$<TARGET_FILE:idf::tcp_transport>
+$<TARGET_FILE:idf::mqtt>
 $<TARGET_FILE:idf::esp_driver_gptimer>
 $<TARGET_FILE:idf::esp_driver_spi>
 $<TARGET_FILE:idf::esp_driver_i2s>
@@ -111,10 +115,8 @@ $<TARGET_FILE:idf::esp_phy>
 $<TARGET_FILE:idf::wpa_supplicant>
 $<TARGET_FILE:idf::esp_coex>
 $<TARGET_FILE:idf::esp_wifi>
-$<TARGET_FILE:idf::http_parser>
-$<TARGET_FILE:idf::esp-tls>
-$<TARGET_FILE:idf::tcp_transport>
 $<TARGET_FILE:idf::esp_http_client>
+$<TARGET_FILE:idf::json>
 $<TARGET_FILE:idf::DHT11>
 $<TARGET_FILE:__idf_driver>
 $<TARGET_FILE:idf::SG90>
@@ -125,6 +127,8 @@ $<TARGET_FILE:__idf_espp__task>
 $<TARGET_FILE:__idf_esp_adc>
 $<TARGET_FILE:idf::zorxx__dht>
 $<TARGET_FILE:idf::main>
+$<TARGET_FILE:__idf_mqtt>
+$<TARGET_FILE:__idf_json>
 $<TARGET_FILE:__idf_DHT11>
 $<TARGET_FILE:__idf_SG90>
 $<TARGET_FILE:__idf_zorxx__dht>
